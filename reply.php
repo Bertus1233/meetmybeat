@@ -1,0 +1,34 @@
+
+<?php
+include "header2.php";
+include "dbconnect.php";
+
+if($_SERVER['REQUEST_METHOD'] != 'POST')
+{
+    //File direct oproepen moet niet mogen
+    echo 'Je kan deze pagina niet direct oproepen.';
+}else{
+	
+	$sql= "INSERT INTO posts (post_content,
+							  post_date,
+							  post_topic)
+							VALUES
+							 ('" . $_POST['reply'] . "', NOW(), '" . mysqli_real_escape_string($db, $_GET['id']) . "')";
+
+$result = mysqli_query($db, $sql);
+
+
+if(!$result){
+	echo "Uw opmerking is niet opgeslagen probeer opnieuw.";
+	echo "$sql";	
+}else{
+	
+	echo 'Uw opmerking is opgeslagen <a href="post.php?id=' . htmlentities($_GET['id']) . '">Terug naar onderwerp</a>.';
+	
+	}
+}
+
+
+include "footer2.php";
+
+?>
